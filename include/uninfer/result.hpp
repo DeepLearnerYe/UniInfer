@@ -24,4 +24,4 @@ namespace uninfer
         std::vector<Detection> detections;
     };
     
-}// namespace unifer
+}// namespace uninfer

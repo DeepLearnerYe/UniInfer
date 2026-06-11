@@ -8,7 +8,7 @@ namespace uninfer
     {
         kBGR,
         kRGB,
-        kGray,
+        kGRAY,
     };
 
     struct Image
@@ -17,7 +17,7 @@ namespace uninfer
         int width = 0;
         int height = 0;
         int channel = 0;
-        std::size_t pitch;
+        std::size_t pitch = 0;
         PixelFormat format = PixelFormat::kBGR;
     };
     

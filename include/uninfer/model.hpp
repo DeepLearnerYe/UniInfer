@@ -7,8 +7,9 @@ namespace uninfer
 
     class IDetectionModel
     {
+    public:
         virtual ~IDetectionModel() = default;
         virtual DetectionResult predict(const Image& image) = 0;
     };
 
-}// namespace uinfer
+}// namespace uninfer
