@@ -4,10 +4,10 @@
 namespace uninfer
 {
 
-    class MockDetectionModel:public IDetectionModel
+    class MockDetectionModel : public IDetectionModel
     {
     public:
-        DetectionResult predict(const Image& image) override;
+        DetectionResult predict(const Image &image) override;
     };
 
-}// namespace uninfer
+} // namespace uninfer

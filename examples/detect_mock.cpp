@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "uninfer/core.hpp"
 #include "uninfer/mock_model.hpp"
 
@@ -11,8 +12,9 @@ int main()
     image.pitch = image.width * image.channels;
     image.format = uninfer::PixelFormat::kBGR;
 
-    uninfer::MockDetectionModel model;
-    auto result = model.predict(image);
+    // uninfer::MockDetectionModel model;
+    std::unique_ptr<uninfer::IDetectionModel> model = std::make_unique<uninfer::MockDetectionModel>();
+    auto result = model->predict(image);
 
     for(const auto& det: result.detections)
     {
