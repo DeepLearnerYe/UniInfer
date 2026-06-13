@@ -45,6 +45,22 @@ C++ CMake tools for Windows
 
 - [Install C and C++ support in Visual Studio](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170)
 
+如果只装 Build Tools，可以安装到固定目录，例如：
+
+```text
+C:\BuildTools
+```
+
+至少需要包含：
+
+```text
+Microsoft.VisualStudio.Workload.VCTools
+Microsoft.VisualStudio.Component.VC.Tools.x86.x64
+Windows 10/11 SDK
+```
+
+Windows SDK 很重要。只装 MSVC 编译器但没有 SDK 时，`cl.exe` 可能能启动，但 CMake 链接测试会因为找不到 `rc.exe` 或 `mt.exe` 失败。
+
 ### 2. 安装 Git
 
 下载：
@@ -67,9 +83,65 @@ https://cmake.org/download/
 Add CMake to the system PATH
 ```
 
+如果已经安装了 Visual Studio Build Tools，并勾选了 C++ CMake tools，也可能已经自带 CMake，常见路径：
+
+```text
+C:\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin
+```
+
 参考：
 
 - [CMake Download](https://cmake.org/download/)
+
+### 4. 环境变量和终端刷新
+
+推荐把 Git、CMake、MSVC、Windows SDK 写入系统或用户 `PATH`。如果使用用户环境变量，写入后要完全关闭并重新打开终端。
+
+注意：
+
+- VS Code 内的新终端会继承 VS Code 进程启动时的环境变量。修改环境变量后，需要完全退出 VS Code 再重新打开。
+- Windows Terminal 的新标签页可能仍继承旧 Windows Terminal 进程环境。修改环境变量后，需要关闭所有 Windows Terminal 窗口再重新打开。
+- 不建议把 CMake、Git 等便携工具解压到 UniInfer 仓库目录，例如 `.tools/`。这是 Git 仓库，应保持源码目录干净。工具建议安装到 `C:\Program Files`、`C:\BuildTools`、`%LOCALAPPDATA%\Programs` 或单独的 SDK 目录。
+
+如果新终端里仍然找不到命令，先检查注册表中的用户环境变量是否已经写入：
+
+```bat
+reg query HKCU\Environment /v Path
+```
+
+如果希望普通 PowerShell 也能直接使用 `git`、`cmake`、`cl`，可以把工具路径追加到用户 `PATH`。示例：
+
+```powershell
+$pathsToAdd = @(
+    "C:\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin",
+    "$env:LOCALAPPDATA\Programs\MinGit\cmd",
+    "C:\BuildTools\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64",
+    "C:\BuildTools\MSBuild\Current\Bin\amd64",
+    "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64"
+)
+
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+$parts = @()
+if ($userPath) {
+    $parts = $userPath -split ";" | Where-Object { $_ }
+}
+
+foreach ($path in $pathsToAdd) {
+    if (-not ($parts | Where-Object { $_ -ieq $path })) {
+        $parts += $path
+    }
+}
+
+[Environment]::SetEnvironmentVariable("Path", ($parts -join ";"), "User")
+```
+
+`cl.exe` 还依赖 `INCLUDE`、`LIB`、`LIBPATH`。如果普通 PowerShell 编译链接失败，优先使用 `x64 Native Tools Command Prompt for VS 2022`；或者把 Developer Command Prompt 中的这些变量同步到用户环境变量。
+
+也可以临时刷新当前 PowerShell 会话的 `PATH`：
+
+```powershell
+$env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")
+```
 
 ## 二、验证最小 C++ 环境
 
@@ -91,6 +163,9 @@ x64 Native Tools Command Prompt for VS 2022
 cl
 cmake --version
 git --version
+where cl
+where cmake
+where git
 ```
 
 进入 UniInfer 仓库：
@@ -99,7 +174,19 @@ git --version
 cd /d D:\your\path\UniInfer
 cmake -S . -B build
 cmake --build build --config Release
+.\build\detect_mock.exe
+```
+
+如果使用 Visual Studio 生成器，示例程序可能在配置目录下：
+
+```bat
 .\build\Release\detect_mock.exe
+```
+
+如果使用 NMake 生成器，示例程序通常在：
+
+```bat
+.\build\detect_mock.exe
 ```
 
 如果输出类似：
