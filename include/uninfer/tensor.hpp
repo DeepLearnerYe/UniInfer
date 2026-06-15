@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <cstddef>
 
 namespace uninfer
 {
@@ -27,6 +28,6 @@ namespace uninfer
         std::size_t bytes = 0;
     };
 
-    size_t dataTypeSize(DataType dtype);
+    std::size_t dataTypeSize(DataType dtype);
 
 } // namespace uninfer

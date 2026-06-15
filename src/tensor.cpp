@@ -4,7 +4,7 @@
 
 namespace uninfer
 {
-    size_t dataTypeSize(DataType dtype)
+    std::size_t dataTypeSize(DataType dtype)
     {
         switch (dtype)
         {

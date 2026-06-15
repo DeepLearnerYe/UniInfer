@@ -19,9 +19,10 @@ namespace uninfer
 
     class IBackend
     {
+    public:
         virtual ~IBackend() = default;
 
-        virtual int load(const std::string& model_path) = 0;
+        virtual void load(const std::string& model_path) = 0;
         virtual std::vector<Tensor> infer(const std::vector<Tensor>& inputs) = 0;
-    }
+    };
 } // namespace uninfer

@@ -9,6 +9,7 @@ add_library(uninfer
     src/mock_model.cpp
     src/factory.cpp
     src/backend.cpp
+    src/tensor.cpp
 )
 
 target_include_directories(uninfer
