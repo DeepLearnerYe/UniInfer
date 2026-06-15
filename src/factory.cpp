@@ -1,6 +1,7 @@
+#include "uninfer/factory.hpp"
+
 #include <stdexcept>
 
-#include "uninfer/factory.hpp"
 #include "uninfer/mock_model.hpp"
 
 namespace uninfer
@@ -23,7 +24,7 @@ namespace uninfer
         case BackendType::kAscend:
             throw std::runtime_error("Ascend backend is not implemented yet");
         default:
-            throw std::runtime_error("unkown backend type");
+            throw std::runtime_error("unknown backend type");
         }
     }
 } // namespace uninfer

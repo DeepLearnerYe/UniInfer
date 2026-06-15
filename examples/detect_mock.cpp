@@ -1,7 +1,6 @@
 #include <iostream>
 #include <memory>
 #include "uninfer/core.hpp"
-#include "uninfer/mock_model.hpp"
 #include "uninfer/config.hpp"
 #include "uninfer/factory.hpp"
 
@@ -22,7 +21,7 @@ int main()
 
     for(const auto& det: result.detections)
     {
-        std::cout << "classId = " << det.classId
+        std::cout << "class_id = " << det.class_id
                 << ", score = " << det.score
                 << ", box = (" << det.box.left << ", "
                 << det.box.top << ", "

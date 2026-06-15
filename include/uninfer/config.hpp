@@ -23,8 +23,8 @@ namespace uninfer
     {
         BackendType backend = BackendType::kMock;
         TaskType task = TaskType::kDetection;
-        std::string modelPath;
-        int deviceId = 0;
+        std::string model_path;
+        int device_id = 0;
     };
 
 } // namespace uninfer
