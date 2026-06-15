@@ -1,5 +1,4 @@
 #include <iostream>
-#include <memory>
 #include "uninfer/core.hpp"
 #include "uninfer/config.hpp"
 #include "uninfer/factory.hpp"

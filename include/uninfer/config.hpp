@@ -1,16 +1,10 @@
 #pragma once
 
 #include "uninfer/backend.hpp"
+#include "uninfer/task.hpp"
 
 namespace uninfer
 {
-
-    enum class TaskType
-    {
-        kDetection,
-        kClassification,
-        kPose
-    };
 
     struct ModelConfig
     {
