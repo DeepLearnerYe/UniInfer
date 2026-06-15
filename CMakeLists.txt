@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(uninfer
     src/mock_model.cpp
     src/factory.cpp
+    src/backend.cpp
 )
 
 target_include_directories(uninfer

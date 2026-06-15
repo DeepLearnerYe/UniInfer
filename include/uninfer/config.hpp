@@ -1,16 +1,9 @@
 #pragma once
 
-#include <string>
+#include "uninfer/backend.hpp"
 
 namespace uninfer
 {
-    enum class BackendType
-    {
-        kMock,
-        kTensorRT,
-        kOpenVINO,
-        kAscend
-    };
 
     enum class TaskType
     {

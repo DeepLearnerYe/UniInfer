@@ -18,6 +18,7 @@ int main()
     config.task = uninfer::TaskType::kDetection;
     auto model = uninfer::createDetectionModel(config);
     auto result = model->predict(image);
+    std::cout << "backend = " << uninfer::toString(config.backend) << std::endl;
 
     for(const auto& det: result.detections)
     {
