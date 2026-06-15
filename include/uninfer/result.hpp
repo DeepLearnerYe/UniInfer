@@ -15,7 +15,7 @@ namespace uninfer
     struct Detection
     {
         Box box;
-        int class_id = -1;
+        int classId = -1;
         float score = 0.0f;
     };
 

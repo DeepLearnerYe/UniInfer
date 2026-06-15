@@ -11,7 +11,7 @@ namespace uninfer
         det.box.top = image.height * 0.25f;
         det.box.right = image.width * 0.75f;
         det.box.bottom = image.height * 0.75f;
-        det.class_id = 0;
+        det.classId = 0;
         det.score = 0.99f;
 
         result.detections.push_back(det);
