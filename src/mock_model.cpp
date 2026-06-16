@@ -1,20 +1,24 @@
 #include "uninfer/mock_model.hpp"
+#include "uninfer/mock_backend.hpp"
+#include "uninfer/mock_decoder.hpp"
+#include "uninfer/mock_preprocessor.hpp"
 
 namespace uninfer
 {
+    MockDetectionModel::MockDetectionModel(const ModelConfig& config)
+    :preprocessor_(std::make_unique<MockPreprocessor>()),
+    backend_(std::make_unique<MockBackend>()),
+    decoder_(std::make_unique<MockDetectionDecoder>())
+    {
+        backend_->load(config.model_path);
+    }
+
     DetectionResult MockDetectionModel::predict(const Image& image)
     {
-        DetectionResult result;
-
-        Detection det;
-        det.box.left = image.width * 0.25f;
-        det.box.top = image.height * 0.25f;
-        det.box.right = image.width * 0.75f;
-        det.box.bottom = image.height * 0.75f;
-        det.class_id = 0;
-        det.score = 0.99f;
-
-        result.detections.push_back(det);
+        auto input = preprocessor_->preprocess(image);
+        auto outputs = backend_->infer({input});
+        auto result = decoder_->decode(outputs);
+  
         return result;
     }
 }

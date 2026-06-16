@@ -1,7 +1,7 @@
 #include <iostream>
-#include <memory>
 #include "uninfer/core.hpp"
-#include "uninfer/mock_model.hpp"
+#include "uninfer/config.hpp"
+#include "uninfer/factory.hpp"
 
 int main()
 {
@@ -12,9 +12,13 @@ int main()
     image.pitch = image.width * image.channels;
     image.format = uninfer::PixelFormat::kBGR;
 
-    // uninfer::MockDetectionModel model;
-    std::unique_ptr<uninfer::IDetectionModel> model = std::make_unique<uninfer::MockDetectionModel>();
+    uninfer::ModelConfig config;
+    config.backend = uninfer::BackendType::kMock;
+    config.task = uninfer::TaskType::kDetection;
+    config.model_path = "mock.engine";
+    auto model = uninfer::createDetectionModel(config);
     auto result = model->predict(image);
+    std::cout << "backend = " << uninfer::toString(config.backend) << std::endl;
 
     for(const auto& det: result.detections)
     {
