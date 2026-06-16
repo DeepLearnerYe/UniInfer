@@ -26,6 +26,8 @@ namespace uninfer
         TensorShape shape;
         void* data = nullptr;
         std::size_t bytes = 0;
+
+        std::vector<float> host_data;
     };
 
     std::size_t dataTypeSize(DataType dtype);

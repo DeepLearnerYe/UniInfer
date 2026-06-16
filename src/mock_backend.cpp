@@ -15,8 +15,9 @@ namespace uninfer
         output.name = "mock_output";
         output.dtype = DataType::kFloat32;
         output.shape.dims = {1, 6};
-        output.bytes = 6 * dataTypeSize(output.dtype);
-        output.data = nullptr;
+        output.host_data = {160.0f, 120.0f, 480.0f, 360.0f, 0.99f, 0.0f};
+        output.bytes = output.host_data.size() * dataTypeSize(output.dtype);
+        output.data = output.host_data.data();
 
         return {output};
     }
