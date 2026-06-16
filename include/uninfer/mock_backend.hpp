@@ -6,6 +6,7 @@ namespace uninfer
 {
     class MockBackend : public IBackend
     {
+    public:
         void load(const std::string& model_path) override;
         std::vector<Tensor> infer(const std::vector<Tensor>& inputs) override;
     };

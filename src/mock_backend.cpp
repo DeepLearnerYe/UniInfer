@@ -4,16 +4,16 @@ namespace uninfer
 {
     void MockBackend::load(const std::string& model_path)
     {
-        return;
+        (void)model_path;
     }
 
-    std::vector<Tensor> infer(const std::vector<Tensor>& inputs)
+    std::vector<Tensor> MockBackend::infer(const std::vector<Tensor>& inputs)
     {
         (void)inputs;
 
         Tensor output;
         output.name = "mock_output";
-        output.dtype = DataType::kFloat16;
+        output.dtype = DataType::kFloat32;
         output.shape.dims = {1, 6};
         output.bytes = 6 * dataTypeSize(output.dtype);
         output.data = nullptr;
