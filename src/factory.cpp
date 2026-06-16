@@ -16,7 +16,7 @@ namespace uninfer
         switch (config.backend)
         {
         case BackendType::kMock:
-            return std::make_unique<MockDetectionModel>();
+            return std::make_unique<MockDetectionModel>(config);
         case BackendType::kTensorRT:
             throw std::runtime_error("TensorRT backend is not implemented yet");
         case BackendType::kOpenVINO:

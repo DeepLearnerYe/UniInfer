@@ -12,6 +12,7 @@ add_library(uninfer
     src/tensor.cpp
     src/mock_backend.cpp
     src/mock_decoder.cpp
+    src/mock_preprocessor.cpp
 )
 
 target_include_directories(uninfer

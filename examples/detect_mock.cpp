@@ -15,6 +15,7 @@ int main()
     uninfer::ModelConfig config;
     config.backend = uninfer::BackendType::kMock;
     config.task = uninfer::TaskType::kDetection;
+    config.model_path = "mock.engine";
     auto model = uninfer::createDetectionModel(config);
     auto result = model->predict(image);
     std::cout << "backend = " << uninfer::toString(config.backend) << std::endl;
