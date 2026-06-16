@@ -2,8 +2,9 @@
 
 #include <memory>
 
-#include "uninfer/model.hpp"
+#include "uninfer/decoder.hpp"
 #include "uninfer/backend.hpp"
+#include "uninfer/model.hpp"
 
 namespace uninfer
 {
@@ -16,6 +17,7 @@ namespace uninfer
         DetectionResult predict(const Image &image) override;
     private:
         std::unique_ptr<IBackend> backend_;
+        std::unique_ptr<IDecoder<DetectionResult>> decoder_;
     };
 
 } // namespace uninfer
