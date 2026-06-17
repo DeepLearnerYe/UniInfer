@@ -5,14 +5,13 @@ project(UniInfer LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+file(GLOB_RECURSE UNINFER_SOURCES
+    CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+)
+
 add_library(uninfer
-    src/mock_model.cpp
-    src/factory.cpp
-    src/backend.cpp
-    src/tensor.cpp
-    src/mock_backend.cpp
-    src/mock_decoder.cpp
-    src/mock_preprocessor.cpp
+    ${UNINFER_SOURCES}
 )
 
 target_include_directories(uninfer

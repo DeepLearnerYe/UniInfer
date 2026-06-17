@@ -9,13 +9,32 @@ namespace uninfer
 
     std::vector<Tensor> MockBackend::infer(const std::vector<Tensor>& inputs)
     {
-        (void)inputs;
+        if (inputs.empty() || inputs[0].shape.dims.empty())
+        {
+            return {};
+        }
+        const int batch = inputs[0].shape.dims[0];
+        if(batch <= 0)
+        {
+            return {};
+        }
 
         Tensor output;
         output.name = "mock_output";
         output.dtype = DataType::kFloat32;
-        output.shape.dims = {1, 6};
-        output.host_data = {160.0f, 120.0f, 480.0f, 360.0f, 0.99f, 0.0f};
+        output.shape.dims = {batch, 6};
+        output.host_data.reserve(static_cast<std::size_t>(batch * 6));
+
+        for(int i = 0; i < batch; ++i)
+        {
+            output.host_data.push_back(160.0f);
+            output.host_data.push_back(120.0f);
+            output.host_data.push_back(480.0f);
+            output.host_data.push_back(360.0f);
+            output.host_data.push_back(0.99f);
+            output.host_data.push_back(0.0f);
+        }
+        
         output.bytes = output.host_data.size() * dataTypeSize(output.dtype);
         output.data = output.host_data.data();
 
