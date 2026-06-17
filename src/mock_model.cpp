@@ -6,7 +6,7 @@
 namespace uninfer
 {
     MockDetectionModel::MockDetectionModel(const ModelConfig& config)
-    :preprocessor_(std::make_unique<MockPreprocessor>()),
+    :preprocessor_(std::make_unique<MockPreprocessor>(config)),
     backend_(std::make_unique<MockBackend>()),
     decoder_(std::make_unique<MockDetectionDecoder>())
     {
@@ -15,10 +15,16 @@ namespace uninfer
 
     DetectionResult MockDetectionModel::predict(const Image& image)
     {
-        auto input = preprocessor_->preprocess(image);
-        auto outputs = backend_->infer({input});
-        auto result = decoder_->decode(outputs);
+        return predict(std::vector<Image>{image}).front();
+    }
+
+    std::vector<DetectionResult> MockDetectionModel::predict(const std::vector<Image>& images)
+    {
   
-        return result;
+        auto input = preprocessor_->preprocess(images);
+        auto outputs = backend_->infer({input});
+        auto results = decoder_->decode(outputs);
+
+        return results;
     }
 }
