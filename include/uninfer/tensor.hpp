@@ -17,6 +17,10 @@ namespace uninfer
     struct TensorShape
     {
         std::vector<int> dims;
+
+        int rank() const;
+        bool empty() const;
+        std::size_t elementCount() const;
     };
 
     struct Tensor
@@ -26,8 +30,12 @@ namespace uninfer
         TensorShape shape;
         void* data = nullptr;
         std::size_t bytes = 0;
-
         std::vector<float> host_data;
+
+        bool empty() const;
+        std::size_t elementCount() const;
+        std::size_t computeBytes() const;
+        void refreshBytes();
     };
 
     std::size_t dataTypeSize(DataType dtype);

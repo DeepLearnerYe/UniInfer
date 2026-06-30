@@ -23,7 +23,8 @@ namespace uninfer
         output.name = "mock_output";
         output.dtype = DataType::kFloat32;
         output.shape.dims = {batch, 6};
-        output.host_data.reserve(static_cast<std::size_t>(batch * 6));
+        output.refreshBytes();
+        output.host_data.reserve(static_cast<std::size_t>(batch) * 6);
 
         for(int i = 0; i < batch; ++i)
         {
@@ -35,7 +36,6 @@ namespace uninfer
             output.host_data.push_back(0.0f);
         }
         
-        output.bytes = output.host_data.size() * dataTypeSize(output.dtype);
         output.data = output.host_data.data();
 
         return {output};

@@ -38,7 +38,7 @@ namespace uninfer
         input.name = "image";
         input.dtype = DataType::kFloat32;
         input.shape.dims = {batch, 3, input_height_, input_width_};
-        input.bytes = static_cast<std::size_t>(batch) * 3 * input_height_ * input_width_ * dataTypeSize(input.dtype);
+        input.refreshBytes();
         input.data = nullptr;
 
         return input;
