@@ -39,7 +39,6 @@ namespace uninfer
         input.dtype = DataType::kFloat32;
         input.shape.dims = {batch, 3, input_height_, input_width_};
         input.refreshBytes();
-        input.data = nullptr;
 
         return input;
     }

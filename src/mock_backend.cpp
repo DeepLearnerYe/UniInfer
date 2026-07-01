@@ -1,5 +1,7 @@
 #include "uninfer/mock_backend.hpp"
 
+#include <memory>
+
 namespace uninfer
 {
     void MockBackend::load(const std::string& model_path)
@@ -24,19 +26,20 @@ namespace uninfer
         output.dtype = DataType::kFloat32;
         output.shape.dims = {batch, 6};
         output.refreshBytes();
-        output.host_data.reserve(static_cast<std::size_t>(batch) * 6);
+        output.buffer = std::make_shared<Buffer>(MemoryType::kHost);
+        output.buffer->resize(output.bytes);
 
+        auto *data = static_cast<float*>(output.data()); 
         for(int i = 0; i < batch; ++i)
         {
-            output.host_data.push_back(160.0f);
-            output.host_data.push_back(120.0f);
-            output.host_data.push_back(480.0f);
-            output.host_data.push_back(360.0f);
-            output.host_data.push_back(0.99f);
-            output.host_data.push_back(0.0f);
+            const auto base = static_cast<std::size_t>(i) * 6;
+            data[base + 0] = 160.0f;
+            data[base + 1] = 120.0f;
+            data[base + 2] = 480.0f;
+            data[base + 3] = 360.0f;
+            data[base + 4] = 0.99f;
+            data[base + 5] = 0.0f;
         }
-        
-        output.data = output.host_data.data();
 
         return {output};
     }

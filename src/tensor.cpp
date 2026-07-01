@@ -65,6 +65,26 @@ namespace uninfer
         return count;
     }
 
+    void *Tensor::data()
+    {
+        if(buffer == nullptr)
+        {
+            return nullptr;
+        }
+
+        return buffer->data();
+    }
+
+    const void *Tensor::data() const
+    {
+        if(buffer == nullptr)
+        {
+            return nullptr;
+        }
+
+        return buffer->data();
+    }
+
     bool Tensor::empty() const
     { 
         return elementCount() == 0;

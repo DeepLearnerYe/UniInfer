@@ -26,10 +26,21 @@ namespace uninfer
             return results;
         }
 
+        if(output.buffer == nullptr)
+        {
+            throw std::runtime_error("mock detection output is nullptr");
+        }
+
         const auto expected_size = static_cast<std::size_t>(batch) * static_cast<std::size_t>(values_per_image);
-        if(output.host_data.size() < expected_size)
+        if(output.bytes < expected_size * dataTypeSize(output.dtype))
         {
             throw std::runtime_error("mock detection output data is incomplete");
+        }
+
+        const auto *data = static_cast<const float*>(output.data());
+        if(data == nullptr)
+        {
+            throw std::runtime_error("mock detection output data is nullptr");
         }
 
         results.reserve(batch);
@@ -39,12 +50,12 @@ namespace uninfer
             const auto base = static_cast<std::size_t>(i) * static_cast<std::size_t>(values_per_image);
 
             Detection det;
-            det.box.left = output.host_data[base + 0];
-            det.box.top = output.host_data[base + 1];
-            det.box.right = output.host_data[base + 2];
-            det.box.bottom = output.host_data[base + 3];
-            det.score = output.host_data[base + 4];
-            det.class_id = static_cast<int>(output.host_data[base + 5]);
+            det.box.left = data[base + 0];
+            det.box.top = data[base + 1];
+            det.box.right = data[base + 2];
+            det.box.bottom = data[base + 3];
+            det.score = data[base + 4];
+            det.class_id = static_cast<int>(data[base + 5]);
 
             DetectionResult result;
             result.detections.push_back(det);
