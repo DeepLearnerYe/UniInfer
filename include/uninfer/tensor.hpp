@@ -1,8 +1,12 @@
 #pragma once
 
+#include "uninfer/buffer.hpp"
+
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <memory>
+
 
 namespace uninfer
 {
@@ -28,10 +32,11 @@ namespace uninfer
         std::string name;
         DataType dtype = DataType::kFloat32;
         TensorShape shape;
-        void* data = nullptr;
         std::size_t bytes = 0;
-        std::vector<float> host_data;
+        std::shared_ptr<IBuffer> buffer;
 
+        void *data();
+        const void* data() const;
         bool empty() const;
         std::size_t elementCount() const;
         std::size_t computeBytes() const;

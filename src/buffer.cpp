@@ -1,31 +1,25 @@
 #include "uninfer/buffer.hpp"
 
-#include <stdexcept>
 
 namespace uninfer
 {
-    Buffer::Buffer(MemoryType memory_type)
-    :memory_type_(memory_type)
-    {
 
+    MemoryType HostBuffer::memoryType() const
+    {
+        return MemoryType::kHost;
     }
 
-    MemoryType Buffer::memoryType() const
-    {
-        return memory_type_;
-    }
-
-    std::size_t Buffer::bytes() const
+    std::size_t HostBuffer::bytes() const
     {
         return host_data_.size();
     }
 
-    bool Buffer::empty() const
+    bool HostBuffer::empty() const
     {
         return host_data_.empty();
     }
 
-    void *Buffer::data()
+    void *HostBuffer::data()
     {
         if(empty())
         {
@@ -34,7 +28,7 @@ namespace uninfer
         return host_data_.data();
     }
 
-    const void* Buffer::data() const
+    const void* HostBuffer::data() const
     {
         if(empty())
         {
@@ -43,16 +37,12 @@ namespace uninfer
         return host_data_.data();
     }
 
-    void Buffer::resize(std::size_t bytes)
+    void HostBuffer::resize(std::size_t bytes)
     {
-        if(memory_type_ != MemoryType::kHost)
-        {
-            throw std::runtime_error("only host is implemented now");
-        }
         host_data_.resize(bytes);
     }
 
-    void Buffer::clear()
+    void HostBuffer::clear()
     {
         host_data_.clear();
     }

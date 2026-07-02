@@ -26,7 +26,7 @@ namespace uninfer
         output.dtype = DataType::kFloat32;
         output.shape.dims = {batch, 6};
         output.refreshBytes();
-        output.buffer = std::make_shared<Buffer>(MemoryType::kHost);
+        output.buffer = std::make_shared<HostBuffer>();
         output.buffer->resize(output.bytes);
 
         auto *data = static_cast<float*>(output.data()); 

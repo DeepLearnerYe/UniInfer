@@ -21,6 +21,11 @@ namespace uninfer
         const int batch = output.shape.dims[0];
         const int values_per_image = output.shape.dims[1];
 
+        if(output.dtype != DataType::kFloat32)
+        {
+            throw std::runtime_error("mock detection output dtype should be float32");
+        }
+
         if(batch <=0 || values_per_image < 6)
         {
             return results;
@@ -32,7 +37,8 @@ namespace uninfer
         }
 
         const auto expected_size = static_cast<std::size_t>(batch) * static_cast<std::size_t>(values_per_image);
-        if(output.bytes < expected_size * dataTypeSize(output.dtype))
+        const auto expected_bytes = expected_size * dataTypeSize(output.dtype);
+        if(output.bytes < expected_bytes || output.buffer->bytes() < expected_bytes)
         {
             throw std::runtime_error("mock detection output data is incomplete");
         }
